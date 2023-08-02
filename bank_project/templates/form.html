@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <script type="text/javascript"
+          src="http://code.jquery.com/jquery-1.11.0.js">
+  </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+    <title>Form</title>
+</head>
+<body style="background-color:pink;">
+<div class="container-fluid">
+    <h4> ENTER YOUR DETAILS</h4>
+
+    <form id="Form" name="form" method="post">
+        {%csrf_token %}
+        <input type="text" name="name" placeholder="Enter your Name"><br>
+        <label>Enter Date Of Birth</label>
+        <input type="date" name="dob" placeholder="Enter Date Of Birth"><br>
+        <input type="number" name="age" placeholder="Enter your Age"><br>
+        <input type="radio" name="gender" value="male">Male
+        <input type="radio" name="gender" value="female">Female<br>
+        <input type="email" name="email" placeholder="Enter your mail id"><br>
+        <input type="tel" name="phone" placeholder="Enter your Phone number"><br>
+        <input type="text" name="address" placeholder="Enter your Address"><br>
+
+
+         <label>District</label>
+            <select name="district" id="district">
+                <option value="">Select District</option>
+                <option value="Palakkad">Palakkad</option>
+                <option value="Malappuram">Malappuram</option>
+                <option value="Ernakulam">Ernakulam</option>
+                <option value="Thrissur">Thrissur</option>
+                <option value="Wayanad">Wayanad</option>
+
+            </select><br>
+       <label>Branch</label>
+            <select disabled="disabled" class="branch" id="branch" name="branch">
+                <option value>Select Branch</option>
+                <optgroup data-rel="Palakkad">
+                    <option value="Alathur">Alathur</option>
+                    <option value="Chittur">Chittur</option>
+                    <option value="Mannarkad">Mannarkad</option>
+                    <option value="Ottapalam">Ottapalam</option>
+                </optgroup>
+                <optgroup data-rel="Malappuram">
+                    <option value="Ernad">Ernad</option>
+                    <option value="Kondotty">Kondotty</option>
+                    <option value="Nilambur">Nilambur</option>
+                    <option value="Alathiyoor">Alathiyoor</option>
+                </optgroup>
+                <optgroup data-rel="Ernakulam">
+                    <option value="Aluva">Aluva</option>
+                    <option value="Kochi">Kochi </option>
+                    <option value="Paravur">Paravur</option>
+                    <option value="Muvattupuzha">Muvattupuzha </option>
+                </optgroup>
+                <optgroup data-rel="Thrissur">
+                    <option value="Chalakkudy">Chalakkudy</option>
+                    <option value="Chavakkad">Chavakkad</option>
+                    <option value="Kodungallur">Kodungallur</option>
+                    <option value="Kunnamkulam">Kunnamkulam</option>
+                </optgroup>
+                 <optgroup data-rel="Wayanad">
+                    <option value="Sulthanbatheri">Sulthanbatheri</option>
+                    <option value="Mannathavady">Mannathavady</option>
+                    <option value="Vythiri">Vythiri</option>
+                </optgroup>
+            </select><br>
+
+
+<!--   account type dropdown-->
+        <label for="acc">Choose Account type</label>
+        <select id="acc" name="account">
+            <option value="savings">Savings Account</option>
+            <option value="current">Current Account</option>
+            <option value="fixed">Fixed Deposit Account</option>
+            <option value="salary">Salary Account</option>
+        </select>
+        <br>
+    <!--    materials provided checkbox-->
+         <label>Select the materials provided</label><br>
+          <input type="checkbox" id="debit" name="materials" value="debit">
+            <label for="debit"> Debit Card</label><br>
+        <input type="checkbox" id="credit" name="materials" value="credit">
+             <label for="credit"> Credit Card</label><br>
+        <input type="checkbox" id="cb" name="materials" value="cb">
+            <label for="cb"> Cheque book</label><br><br>
+
+<input type="submit">
+        <a class="btn btn-secondary" href="{% url 'home' %}">LogOut</a><br>
+<center>{% for msg in messages %}
+        <h2>{{msg}}</h2>
+        <a href="{% url 'home' %}">return to home page</a><br>
+    {% endfor %}<br></center>
+
+
+
+    </form>
+
+
+
+
+</div>
+  <script type="text/javascript">
+    //<![CDATA[
+    $(function () {
+        var $cat = $("#district"),
+            $state = $(".branch");
+        var optgroups = {};
+        $state.each(function (i, v) {
+            var $e = $(v);
+            var _id = $e.attr("id");
+            optgroups[_id] = {};
+            $e.find("optgroup").each(function () {
+                var _r = $(this).data("rel");
+                $(this).find("option").addClass("is-dyn");
+                optgroups[_id][_r] = $(this).html();
+            });
+        });
+        $state.find("optgroup").remove();
+
+        var _lastRel;
+        $cat.on("change", function () {
+            var _rel = $(this).val();
+            if (_lastRel === _rel) return true;
+            _lastRel = _rel;
+            $state.find("option").attr("style", "");
+            $state.val("");
+            $state.find(".is-dyn").remove();
+            if (!_rel) return $state.prop("disabled", true);
+            $state.each(function () {
+                var $el = $(this);
+                var _id = $el.attr("id");
+                $el.append(optgroups[_id][_rel]);
+            });
+            $state.prop("disabled", false);
+        });
+    });
+    //]]>
+</script>
+</body>
+</html>
